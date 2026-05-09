@@ -1,0 +1,10 @@
+bin/
+obj/
+appsettings.Development.json
+appsettings.json
+commands.txt
+wwwroot/uploads/residents/
+.vscode
+
+WeatherForecast.cs
+Controllers/WeatherForecastController.cs
