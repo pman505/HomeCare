@@ -16,12 +16,14 @@ namespace MyApp.Namespace
     {
         private ReactHomecareContext _context;
         private ResidentService _residentService;
+        private readonly IWebHostEnvironment _env;
 
 
-        public ResidentsController(ReactHomecareContext context, ResidentService residentService)
+        public ResidentsController(ReactHomecareContext context, ResidentService residentService, IWebHostEnvironment env)
         {
             _context = context;
             _residentService = residentService;
+            _env = env;
         }
 
         [HttpGet("GetResidents")]
@@ -44,7 +46,9 @@ namespace MyApp.Namespace
         public async Task<IActionResult> AddResident([FromForm] ResidentDto dto)
         {
             var fileName = Guid.NewGuid().ToString() + Path.GetExtension(dto.Photo.FileName);
-            var filePath = Path.Combine("wwwroot/uploads/residents", fileName);
+            var uploadsPath = Path.Combine(_env.ContentRootPath, "uploads", "residents");
+            Directory.CreateDirectory(uploadsPath);
+            var filePath = Path.Combine(uploadsPath, fileName);
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {

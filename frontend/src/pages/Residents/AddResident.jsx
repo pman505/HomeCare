@@ -1,6 +1,8 @@
 import { useState, useRef } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 function AddResident() {
 
@@ -53,9 +55,10 @@ function AddResident() {
         formData.append("Dob", form.dob);
         formData.append("Photo", form.photo);
 
-        await fetch('/api/residents/addresident', {
+        await fetch(`${API_URL}/api/residents/addresident`, {
             method: 'POST',
             body: formData,
+            credentials: 'include'
         });
         navigate('/residents')
     }

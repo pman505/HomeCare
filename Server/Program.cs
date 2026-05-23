@@ -2,6 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Server.DataContext;
 using Server.Models;
@@ -11,19 +12,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+              
+    });
+});
 
-// builder.Services.AddCors(options =>
-// {
-//     options.AddPolicy("FrontendPolicy", policy =>
-//     {
-//         policy
-//             .WithOrigins("http://localhost:5173/")
-//             .AllowAnyHeader()
-//             .AllowAnyMethod()
-//             .AllowCredentials();
-//     });
-// });
+
 
 builder.Services.AddIdentity<User, IdentityRole>()       // UserManager<USer>, SignInManager<>, RoleManager<> is registered
     .AddEntityFrameworkStores<ReactHomecareContext>()
@@ -79,6 +80,8 @@ builder.Services.AddAuthentication(options =>
       };
     });
 
+builder.Services.AddAuthorization();
+builder.Services.AddControllers();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -107,9 +110,17 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(app.Environment.ContentRootPath, "uploads")),
+    RequestPath = "/uploads"
+});
+
 app.UseHttpsRedirection();
 
 // app.UseCors("FrontendPolicy");
+app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 

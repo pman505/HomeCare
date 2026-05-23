@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+
+  backend:
+    build: ./Server
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./uploads:/app/uploads
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"

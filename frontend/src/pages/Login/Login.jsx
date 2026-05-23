@@ -3,6 +3,8 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import {AppContext} from '../../App'
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Login = () => {
 
     const [hasError, setHasError] = useState(false);
@@ -22,9 +24,9 @@ const Login = () => {
     const handleSubmit = async (e) =>{
         e.preventDefault();
         setError("");
-
+        
         try {
-            const response = await fetch('/api/accounts/login', {
+            const response = await fetch(`${API_URL}/api/accounts/login`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formUser),

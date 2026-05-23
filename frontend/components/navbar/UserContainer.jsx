@@ -3,6 +3,8 @@ import { useContext } from 'react';
 import {AppContext} from '../../src/App'
 import { Navigate, useNavigate } from 'react-router-dom';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 const UserContainer = () => {
   // const user = {
@@ -18,7 +20,7 @@ const UserContainer = () => {
   const{user, logout, userSetter} = useContext(AppContext);
   const logoutButton = async () => {
      try {
-    await fetch('/api/accounts/logout', {
+    await fetch(`${API_URL}/api/accounts/logout`, {
       method: "POST",
       credentials: "include", // important: send cookies
     });

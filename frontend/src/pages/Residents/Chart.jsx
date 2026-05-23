@@ -11,6 +11,9 @@ import {
  } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
+
 const Chart = () => {
   const weight_history = useLoaderData();
   // console.log(weight_history);
@@ -60,7 +63,9 @@ const Chart = () => {
 export default Chart
 
 export const weightHistoryLoader = async ({params}) => {
-  const weight_history = await fetch(`/api/Residents/GetWeightHistory?id=${params.id}`);
+  const weight_history = await fetch(`${API_URL}/api/Residents/GetWeightHistory?id=${params.id}`, {
+    credentials: "include"
+  });
   // return params.id;
   return weight_history.json();
 }

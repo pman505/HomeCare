@@ -17,6 +17,8 @@ import ResidentDetail, {residentLoader} from './pages/Residents/ResidentDetail'
 import Chart, {weightHistoryLoader} from './pages/Residents/Chart'
 import AddResident from './pages/Residents/AddResident';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const AppContext = createContext();
 
 function App() {
@@ -31,7 +33,7 @@ function App() {
   }
 
   useEffect(() => {
-    fetch("/api/accounts/credcheck", 
+    fetch(`${API_URL}/api/accounts/credcheck`, 
         {
             credentials: "include"
         })

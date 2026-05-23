@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { Link, NavLink } from 'react-router-dom';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 const Residents = () => {
   const initialResData = useLoaderData();
@@ -42,7 +44,7 @@ const Residents = () => {
                     Details
                     </button>
                     <button className='btn-resident-list btn-danger' onClick={() => {
-                    fetch(`/api/Residents/DeleteResident?id=${resident.id}`, { method: 'DELETE' })
+                    fetch(`${API_URL}/api/Residents/DeleteResident?id=${resident.id}`, { method: 'DELETE', credentials: 'include' })
                     // residentsData = residentsData.filter(x => x.id !==resident.id);
                     setResidents(prev => prev.filter(p => p.id !== resident.id));
                 }}>Remove</button>
@@ -59,7 +61,7 @@ export default Residents
 
 
 export const residentsLoader = async () => {
-  const res = await fetch("/api/residents/getresidents", {
+  const res = await fetch(`${API_URL}/api/residents/getresidents`, {
     credentials: "include"
   });
 
