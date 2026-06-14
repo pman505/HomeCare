@@ -13,6 +13,9 @@ services:
     environment:
       - ConnectionStrings__Default=Host=postgres;Port=5432;Database=homecare_db;Username=postgres;Password=123
       #ConnectionStrings__Default=Host=postgres;Port=5433;Database=myappdb;Username=postgres;Password=password
+      - Jwt__Key=s9HOEh+1Prj4kpwFxXi7lp2ImMAM343YDNWTEZaW0MM=
+      - Jwt__Issuer=FS1
+      - Jwt__Audience=FS1
 
   frontend:
     build: ./frontend
