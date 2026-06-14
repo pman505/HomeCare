@@ -89,7 +89,8 @@ builder.Services.AddOpenApi();
 // builder.Services.AddDbContext<ReactHomecareContext>(options =>
 //     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
+// var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
+var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<ReactHomecareContext>(
         options => options.UseNpgsql(connectionString)
     );
@@ -100,12 +101,15 @@ builder.Services.AddScoped<TokenService>();
 
 var app = builder.Build();
 
+Console.WriteLine("CONNECTION STRING:");
+Console.WriteLine(builder.Configuration.GetConnectionString("Default"));
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-  app.MapOpenApi();
-  app.UseSwagger();
-  app.UseSwaggerUI();
+    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 
